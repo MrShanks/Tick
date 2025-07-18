@@ -1,18 +1,20 @@
 package main
 
 import (
-	"github.com/MrShanks/templates"
+	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/MrShanks/Tick/static/templates"
+	"github.com/a-h/templ"
 )
 
 func main() {
 
-	component := templates.Layout()
+	index := templates.Layout("Tick")
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "static/index.html")
-	})
+	http.Handle("/", templ.Handler(index))
 
+	fmt.Println("Listening on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
